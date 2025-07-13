@@ -21,37 +21,90 @@
     <!-- Main Content Area -->
     <div class="p-4 md:p-6 lg:p-8">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-          Financial Calculator Dashboard
-        </h1>
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">EMI Calculator</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Sample Cards -->
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">EMI Calculator</h3>
-            <p class="text-gray-600">Calculate your loan EMI with ease</p>
-          </div>
-
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">SIP Calculator</h3>
-            <p class="text-gray-600">Plan your systematic investments</p>
-          </div>
-
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Tax Calculator</h3>
-            <p class="text-gray-600">Calculate your income tax liability</p>
-          </div>
-        </div>
+        <CardLayout>
+          <template #card-content>
+            <div class="space-y-6">
+              <form @submit.prevent="calculateEmi">
+                <div class="grid gap-6">
+                  <div>
+                    <label for="loan-amount" class="block text-sm font-medium text-gray-700"
+                      >Loan Amount</label
+                    >
+                    <input
+                      type="number"
+                      id="loan-amount"
+                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      placeholder="Enter loan amount"
+                    />
+                  </div>
+                  <div>
+                    <label for="interest-rate" class="block text-sm font-medium text-gray-700"
+                      >Interest Rate (%)</label
+                    >
+                    <input
+                      type="number"
+                      id="interest-rate"
+                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      placeholder="Enter interest rate"
+                    />
+                  </div>
+                  <div>
+                    <label for="loan-tenure" class="block text-sm font-medium text-gray-700"
+                      >Loan Tenure (Months)</label
+                    >
+                    <input
+                      type="number"
+                      id="loan-tenure"
+                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      placeholder="Enter loan tenure"
+                    />
+                  </div>
+                  <div>
+                    <label for="emi" class="block text-sm font-medium text-gray-700"
+                      >EMI Amount</label
+                    >
+                    <input
+                      type="text"
+                      id="emi"
+                      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      placeholder="Calculated EMI will appear here"
+                      readonly
+                    />
+                  </div>
+                </div>
+                <div class="mt-6">
+                  <button
+                    type="submit"
+                    class="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  >
+                    Calculate EMI
+                  </button>
+                </div>
+              </form>
+            </div>
+          </template>
+        </CardLayout>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import CardLayout from '@/components/CardLayout.vue'
+import { defineEmits } from 'vue'
+
 const emit = defineEmits(['toggle-sidebar'])
 
 const toggleMobileMenu = () => {
   // Emit event to parent or use a global state management
   emit('toggle-sidebar')
+}
+
+const calculateEmi = () => {
+  // Logic to calculate EMI based on input values
+  // This is a placeholder function; actual implementation will depend on your requirements
+  console.log('Calculating EMI...')
 }
 </script>
