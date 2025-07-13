@@ -4,7 +4,7 @@
     <button
       v-if="!isSidebarOpen"
       @click="toggleSidebar"
-      class="fixed top-4 left-4 z-50 p-2 rounded-md bg-blue-600 text-white shadow-lg md:hidden"
+      class="fixed top-4 left-4 z-50 p-2 rounded-md bg-blue-600 text-white shadow-lg lg:hidden"
       aria-label="Toggle navigation"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -21,29 +21,37 @@
     <div
       v-if="isSidebarOpen"
       @click="closeSidebar"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
     ></div>
 
     <!-- Sidebar -->
     <div
       :class="[
-        'fixed top-0 left-0 h-full bg-white shadow-xl z-40 transition-transform duration-300 ease-in-out flex flex-col',
-        // Mobile: Full width when open, hidden when closed
-        'w-full transform md:transform-none',
+        'bg-white shadow-xl transition-transform duration-300 ease-in-out flex flex-col h-full',
+        // Mobile: Fixed overlay when open, hidden when closed
+        'fixed inset-y-0 left-0 z-50 w-full transform lg:transform-none',
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
-        // Desktop: Always visible with fixed width
-        'md:translate-x-0 md:w-80 md:relative md:shadow-none md:border-r md:border-gray-200',
+        // Desktop: Always visible with fixed width, relative positioning
+        'lg:translate-x-0 lg:w-80 lg:relative lg:shadow-none lg:border-r lg:border-gray-200 lg:z-auto',
       ]"
     >
       <!-- Header -->
-      <div
-        class="p-6 border-b border-gray-200 bg-gray-900 flex-shrink-0"
-      >
+      <div class="p-6 border-b border-gray-200 bg-gray-900 flex-shrink-0">
         <div class="flex items-center justify-between">
-          <h1 class="text-xl font-bold text-white">CalcuFin</h1>
+          <div class="flex items-center space-x-2">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+              ></path>
+            </svg>
+            <h1 class="text-xl font-bold text-white">CalcuFin</h1>
+          </div>
           <button
             @click="closeSidebar"
-            class="p-1 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 md:hidden"
+            class="p-1 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 lg:hidden"
           >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -98,9 +106,9 @@
       <!-- Footer -->
       <div class="p-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
         <div class="text-xs text-gray-500 text-center">
-          <p>© {{ currentYear }} Financial Calculator App - CalcuFin ✌🏼</p>
-          <p class="mt-1">v1.0.0</p>
           <p>Made with ❤️</p>
+          <p class="mt-1">© {{ currentYear }} Financial Calculator App - CalcuFin ✌🏼</p>
+          <p class="mt-1">v1.0.0</p>
         </div>
       </div>
     </div>
@@ -166,7 +174,7 @@ export default {
     const selectCalculator = (item) => {
       activeCalculator.value = item.id
       // Close sidebar on mobile after selection
-      if (window.innerWidth < 768) {
+      if (window.innerWidth <= 768) {
         closeSidebar()
       }
       // Emit event for parent component
@@ -184,7 +192,7 @@ export default {
       toggleSidebar,
       closeSidebar,
       selectCalculator,
-      currentYear
+      currentYear,
     }
   },
   components: {
