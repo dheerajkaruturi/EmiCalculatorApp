@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen">
-    <!-- Mobile Menu Button -->
+    <!-- Mobile Menu Button
     <button
       v-if="!isSidebarOpen"
       @click="toggleSidebar"
@@ -15,7 +15,7 @@
           d="M4 6h16M4 12h16M4 18h16"
         ></path>
       </svg>
-    </button>
+    </button> -->
 
     <!-- Overlay for mobile -->
     <div

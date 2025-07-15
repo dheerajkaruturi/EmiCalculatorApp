@@ -1,45 +1,57 @@
 <template>
   <div class="flex-1 overflow-auto bg-gray-50">
     <!-- Mobile Header with Menu Button -->
-    <div class="lg:hidden bg-white shadow-sm border-b border-gray-200 p-4">
-      <button
-        @click="toggleMobileMenu"
-        class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-        aria-label="Toggle navigation"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          ></path>
-        </svg>
-      </button>
+    <div
+      class="lg:hidden bg-gradient-to-r from-blue-50 to-indigo-50 shadow-sm border-b border-blue-100 p-4"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <button
+            @click="toggleMobileMenu"
+            class="p-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-200 mr-4"
+            aria-label="Toggle navigation"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+          <div class="flex items-center">
+            <div
+              class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-md mr-3"
+            >
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold text-gray-800">CalcuFin</h2>
+              <p class="text-xs text-gray-600">EMI Calculator</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Main Content Area -->
     <div class="p-4 md:p-6 lg:p-8">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-          Financial Calculator Dashboard
-        </h1>
-
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">EMI Calculator</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Sample Cards -->
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">EMI Calculator</h3>
-            <p class="text-gray-600">Calculate your loan EMI with ease</p>
+          <div class="lg:col-span-2">
+            <emi-data-input></emi-data-input>
           </div>
-
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">SIP Calculator</h3>
-            <p class="text-gray-600">Plan your systematic investments</p>
-          </div>
-
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">Tax Calculator</h3>
-            <p class="text-gray-600">Calculate your income tax liability</p>
+          <div class="lg:col-span-1">
+            <emi-details></emi-details>
           </div>
         </div>
       </div>
@@ -48,6 +60,10 @@
 </template>
 
 <script setup>
+import EmiDataInput from '@/components/EmiDataInput.vue'
+import EmiDetails from '@/components/EmiDetails.vue'
+import { defineEmits } from 'vue'
+
 const emit = defineEmits(['toggle-sidebar'])
 
 const toggleMobileMenu = () => {
