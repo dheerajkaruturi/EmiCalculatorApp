@@ -58,6 +58,7 @@
                   id="loan-amount"
                   class="pl-8 pr-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="10,00,000"
+                  v-model="loanAmount"
                 />
               </div>
             </div>
@@ -87,6 +88,8 @@
                 <input
                   type="number"
                   id="interest-rate"
+                  v-model="interestRate"
+                  min="0"
                   step="0.1"
                   class="pr-8 pl-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="8.5"
@@ -123,6 +126,8 @@
                 <input
                   type="number"
                   id="loan-tenure"
+                  v-model="loanTenure"
+                  min="1"
                   class="pr-16 pl-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="60"
                 />
@@ -164,5 +169,39 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import CardLayout from '../components/CardLayout.vue'
+
+const loanAmount = ref()
+const interestRate = ref()
+const loanTenure = ref()
+const emiResult = ref()
+const payableAmount = ref()
+
+const calculateEmi = function () {
+  if (!loanAmount.value || !interestRate.value || !loanTenure.value) {
+    alert('Please fill all the fields before calculating EMI.')
+    return
+  }
+
+  /* EMI Calculation Logic
+    EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
+    where –
+    P is the principal amount
+    R is the rate of interest
+    N is the loan tenure
+  */
+
+  let p = parseFloat(loanAmount.value)
+  let r = parseFloat(interestRate.value) / 100 / 12 // Monthly interest rate
+  let n = parseInt(loanTenure.value)
+
+  emiResult.value = ((p * r * Math.pow(1 + r, n)) / [Math.pow(1 + r, n) - 1]).toFixed(2)
+
+  console.log(emiResult.value)
+
+  payableAmount.value = (emiResult.value * n).toFixed(2)
+
+  console.log(payableAmount.value)
+}
 </script>
