@@ -43,15 +43,20 @@
     </div>
 
     <!-- Main Content Area -->
-    <div class="p-4 md:p-6 lg:p-8">
-      <div class="max-w-7xl mx-auto">
+    <div class="p-4 md:p-6 lg:p-6">
+      <div class="max-w-full mx-auto">
         <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">EMI Calculator</h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2">
-            <emi-data-input></emi-data-input>
+        <div class="grid grid-cols-8 gap-8">
+          <div class="col-span-5 bg-white shadow rounded-lg">
+            <emi-data-input @emi-calculated="calculatedEmi"></emi-data-input>
           </div>
-          <div class="lg:col-span-1">
-            <emi-details></emi-details>
+          <div v-if="showDetailsComponent" class="col-span-3 bg-white shadow rounded-lg">
+            <emi-details
+              :emi="calculatedEmiFromChild.emi"
+              :loan-tenure="calculatedEmiFromChild.loanTenure"
+              :total-amount="calculatedEmiFromChild.totalAmount"
+              :principle-amount="calculatedEmiFromChild.principleAmount"
+            ></emi-details>
           </div>
         </div>
       </div>
@@ -62,12 +67,38 @@
 <script setup>
 import EmiDataInput from '@/components/EmiDataInput.vue'
 import EmiDetails from '@/components/EmiDetails.vue'
-import { defineEmits } from 'vue'
+import { defineEmits, reactive, ref } from 'vue'
 
 const emit = defineEmits(['toggle-sidebar'])
+
+const calculatedEmiFromChild = reactive({
+  emi: 0,
+  totalAmount: 0,
+  principleAmount: 0,
+  loanTenure: 0,
+})
+
+const showDetailsComponent = ref(false)
 
 const toggleMobileMenu = () => {
   // Emit event to parent or use a global state management
   emit('toggle-sidebar')
+}
+
+const calculatedEmi = (data) => {
+  // Handle the calculated EMI data
+  console.log('Coming from parent component, Calculated EMI:', data)
+
+  calculatedEmiFromChild.emi = +data.emi
+
+  calculatedEmiFromChild.totalAmount = +data.totalPayable
+
+  calculatedEmiFromChild.principleAmount = +data.principal
+
+  calculatedEmiFromChild.loanTenure = +data.loanTenure
+
+  showDetailsComponent.value = true
+
+  console.log('Coming from parent component,Updated calculated EMI:', calculatedEmiFromChild)
 }
 </script>

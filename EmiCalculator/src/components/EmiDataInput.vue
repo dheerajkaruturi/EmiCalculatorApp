@@ -1,7 +1,7 @@
 <template>
   <CardLayout>
     <template #card-content>
-      <div class="relative">
+      <div class="relative p-2">
         <!-- Background gradient overlay -->
         <div
           class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg opacity-30"
@@ -12,7 +12,7 @@
           <!-- Header with icon -->
           <div class="text-center mb-1">
             <div
-              class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl shadow-lg mb-4"
+              class="inline-flex items-center justify-center w-12 h-12 bg-black rounded-xl shadow-lg mb-4"
             >
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -58,6 +58,7 @@
                   id="loan-amount"
                   class="pl-8 pr-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="10,00,000"
+                  v-model="loanAmount"
                 />
               </div>
             </div>
@@ -87,6 +88,8 @@
                 <input
                   type="number"
                   id="interest-rate"
+                  v-model="interestRate"
+                  min="0"
                   step="0.1"
                   class="pr-8 pl-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="8.5"
@@ -123,6 +126,8 @@
                 <input
                   type="number"
                   id="loan-tenure"
+                  v-model="loanTenure"
+                  min="1"
                   class="pr-16 pl-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="60"
                 />
@@ -137,7 +142,7 @@
             <div class="pt-4">
               <button
                 type="submit"
-                class="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-200 group"
+                class="w-full relative overflow-hidden bg-black text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-200 group"
               >
                 <span class="relative z-10 flex items-center justify-center">
                   <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,5 +169,48 @@
 </template>
 
 <script setup>
+import { ref, defineEmits } from 'vue'
 import CardLayout from '../components/CardLayout.vue'
+
+const emit = defineEmits(['emi-calculated'])
+
+const loanAmount = ref()
+const interestRate = ref()
+const loanTenure = ref()
+const emiResult = ref()
+const payableAmount = ref()
+
+const calculateEmi = function () {
+  if (!loanAmount.value || !interestRate.value || !loanTenure.value) {
+    alert('Please fill all the fields before calculating EMI.')
+    return
+  }
+
+  /* EMI Calculation Logic
+    EMI = [P × R × (1 + R)^N] / [(1 + R)^N – 1]
+    where –
+    P is the principal amount
+    R is the rate of interest
+    N is the loan tenure
+  */
+
+  let p = parseFloat(loanAmount.value)
+  let r = parseFloat(interestRate.value) / 100 / 12 // Monthly interest rate
+  let n = parseInt(loanTenure.value)
+
+  emiResult.value = ((p * r * Math.pow(1 + r, n)) / [Math.pow(1 + r, n) - 1]).toFixed()
+
+  console.log('montly emi is: ' + emiResult.value)
+
+  payableAmount.value = (emiResult.value * n).toFixed()
+
+  console.log('total payable amount is:' + payableAmount.value)
+
+  emit('emi-calculated', {
+    emi: emiResult.value,
+    totalPayable: payableAmount.value,
+    principal: loanAmount.value,
+    loanTenure: loanTenure.value,
+  })
+}
 </script>
