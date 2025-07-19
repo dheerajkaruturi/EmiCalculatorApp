@@ -73,6 +73,8 @@
           :interest-rate="calculatedEmiFromChild.interestRate"
           :loan-tenure="calculatedEmiFromChild.loanTenure"
         />
+
+        <how-this-works v-if="showDetailsComponent" class="mt-8"></how-this-works>
       </div>
     </div>
   </div>
@@ -83,6 +85,7 @@ import { defineEmits, reactive, ref } from 'vue'
 import EmiDataInput from '@/components/EmiDataInput.vue'
 import EmiDetails from '@/components/EmiDetails.vue'
 import EmiAmortizationTable from '@/components/EmiAmortizationTable.vue'
+import HowThisWorks from '@/components/HowThisWorks.vue'
 
 const emit = defineEmits(['toggle-sidebar'])
 

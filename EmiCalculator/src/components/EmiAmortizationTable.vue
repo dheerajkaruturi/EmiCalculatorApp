@@ -1,6 +1,28 @@
 <template>
   <div v-if="showAmortizationTable" class="mt-8 bg-white shadow rounded-lg p-4 md:p-6">
-    <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">EMI Payment Schedule</h2>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">EMI Payment Schedule</h2>
+      <button
+        @click="downloadExcel"
+        class="flex items-center px-4 py-2 bg-black text-white rounded"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-5 h-5 mr-2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 16.5v-9m0 9l-3-3m3 3l3-3m6 6.75H6a2.25 2.25 0 01-2.25-2.25V6A2.25 2.25 0 016 3.75h12A2.25 2.25 0 0120.25 6v12a2.25 2.25 0 01-2.25 2.25z"
+          />
+        </svg>
+        Download to Excel
+      </button>
+    </div>
     <div class="overflow-x-auto">
       <table class="min-w-full border-collapse border border-gray-200">
         <thead>
@@ -19,7 +41,7 @@
               ₹{{ formatNumber(payment.principalPaid) }}
             </td>
             <td class="border border-gray-300 px-2 md:px-4 py-2">
-              ₹{{ formatNumber(payment.interestCharged) }}
+              ₹{{ formatNumber(payment.interestPayment) }}
             </td>
             <td class="border border-gray-300 px-2 md:px-4 py-2">
               ₹{{ formatNumber(payment.totalPayment) }}
@@ -62,6 +84,7 @@
 <script setup>
 import { reactive, defineProps, watch, computed, ref } from 'vue'
 import { useNumberFormatter } from '@/composables/numberformat'
+import { useCsvFormatter } from '@/composables/useCsvExporter'
 
 const props = defineProps({
   showAmortizationTable: {
@@ -91,6 +114,7 @@ const currentPage = ref(1)
 const itemsPerPage = 10
 
 const { thousandSeparator: formatNumber } = useNumberFormatter()
+const { downloadCSVFile: exportToCsv } = useCsvFormatter()
 
 const totalPages = computed(() => {
   return Math.ceil(emiScheduleTableData.length / itemsPerPage)
@@ -146,13 +170,26 @@ function calculateAmortization() {
 
     emiScheduleTableData.push({
       month: month,
-      principalPaid: parseFloat(principalPayment.toFixed(2)),
-      interestCharged: parseFloat(interestPayment.toFixed(2)),
-      totalPayment: parseFloat(emi.toFixed(2)),
-      balanceAmount: parseFloat(remainingBalance.toFixed(2)),
+      principalPaid: parseFloat(principalPayment.toFixed()),
+      interestPayment: parseFloat(interestPayment.toFixed()),
+      totalPayment: parseFloat(emi.toFixed()),
+      balanceAmount: parseFloat(remainingBalance.toFixed()),
     })
 
     if (remainingBalance <= 0) break
   }
+}
+
+const csvData = emiScheduleTableData.map((payment) => ({
+  'Month': payment.month,
+  'Principal Paid': payment.principalPaid,
+  'Interest Charged': payment.interestPayment,
+  'Total Payment': payment.totalPayment,
+  'Balance Amount': payment.balanceAmount,
+}))
+
+function downloadExcel() {
+  debugger;
+  exportToCsv(csvData, 'emi_amortization_schedule.csv')
 }
 </script>
