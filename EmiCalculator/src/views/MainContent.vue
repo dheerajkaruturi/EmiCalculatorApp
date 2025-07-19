@@ -45,12 +45,17 @@
     <!-- Main Content Area -->
     <div class="p-4 md:p-6 lg:p-6">
       <div class="max-w-full mx-auto">
-        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">EMI Calculator</h1>
-        <div class="grid grid-cols-8 gap-8">
-          <div class="col-span-5 bg-white shadow rounded-lg">
+        <h1 class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 md:mb-6">
+          EMI Calculator
+        </h1>
+        <div class="grid grid-cols-1 md:grid-cols-8 gap-4 md:gap-8">
+          <div class="col-span-1 md:col-span-5 bg-white shadow rounded-lg p-4 md:p-6">
             <emi-data-input @emi-calculated="calculatedEmi"></emi-data-input>
           </div>
-          <div v-if="showDetailsComponent" class="col-span-3 bg-white shadow rounded-lg">
+          <div
+            v-if="showDetailsComponent"
+            class="col-span-1 md:col-span-3 bg-white shadow rounded-lg p-4 md:p-6"
+          >
             <emi-details
               :emi="calculatedEmiFromChild.emi"
               :loan-tenure="calculatedEmiFromChild.loanTenure"
@@ -59,15 +64,25 @@
             ></emi-details>
           </div>
         </div>
+
+        <!-- EMI Payment Table -->
+        <emi-amortization-table
+          v-if="showDetailsComponent"
+          :show-amortization-table="showAmortizationSchedule"
+          :principle-amount="calculatedEmiFromChild.principleAmount"
+          :interest-rate="calculatedEmiFromChild.interestRate"
+          :loan-tenure="calculatedEmiFromChild.loanTenure"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { defineEmits, reactive, ref } from 'vue'
 import EmiDataInput from '@/components/EmiDataInput.vue'
 import EmiDetails from '@/components/EmiDetails.vue'
-import { defineEmits, reactive, ref } from 'vue'
+import EmiAmortizationTable from '@/components/EmiAmortizationTable.vue'
 
 const emit = defineEmits(['toggle-sidebar'])
 
@@ -76,9 +91,11 @@ const calculatedEmiFromChild = reactive({
   totalAmount: 0,
   principleAmount: 0,
   loanTenure: 0,
+  interestRate: 0, // Added interestRate
 })
 
 const showDetailsComponent = ref(false)
+const showAmortizationSchedule = ref(false)
 
 const toggleMobileMenu = () => {
   // Emit event to parent or use a global state management
@@ -90,15 +107,14 @@ const calculatedEmi = (data) => {
   console.log('Coming from parent component, Calculated EMI:', data)
 
   calculatedEmiFromChild.emi = +data.emi
-
   calculatedEmiFromChild.totalAmount = +data.totalPayable
-
   calculatedEmiFromChild.principleAmount = +data.principal
-
   calculatedEmiFromChild.loanTenure = +data.loanTenure
+  calculatedEmiFromChild.interestRate = +data.interestRate
 
   showDetailsComponent.value = true
+  showAmortizationSchedule.value = true
 
-  console.log('Coming from parent component,Updated calculated EMI:', calculatedEmiFromChild)
+  console.log('Coming from parent component, Updated calculated EMI:', calculatedEmiFromChild)
 }
 </script>

@@ -56,7 +56,7 @@
                 <input
                   type="number"
                   id="loan-amount"
-                  class="pl-8 pr-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
+                  class="pl-8 pr-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-black-200 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="10,00,000"
                   v-model="loanAmount"
                 />
@@ -90,8 +90,8 @@
                   id="interest-rate"
                   v-model="interestRate"
                   min="0"
-                  step="0.1"
-                  class="pr-8 pl-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
+                  step="0.01"
+                  class="pr-8 pl-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-black-200 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="8.5"
                 />
                 <span
@@ -128,7 +128,7 @@
                   id="loan-tenure"
                   v-model="loanTenure"
                   min="1"
-                  class="pr-16 pl-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
+                  class="pr-16 pl-4 py-3 w-full border-2 border-gray-200 rounded-xl shadow-sm focus:border-black-200 focus:ring-4 focus:ring-blue-100 transition-all duration-200 group-hover:border-gray-300 bg-white"
                   placeholder="60"
                 />
                 <span
@@ -142,7 +142,7 @@
             <div class="pt-4">
               <button
                 type="submit"
-                class="w-full relative overflow-hidden bg-black text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-200 group"
+                class="w-full relative overflow-hidden bg-black text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-green-200 group"
               >
                 <span class="relative z-10 flex items-center justify-center">
                   <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,7 +157,7 @@
                 </span>
                 <!-- Hover effect overlay -->
                 <div
-                  class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  class="absolute inset-0 bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                 ></div>
               </button>
             </div>
@@ -211,6 +211,7 @@ const calculateEmi = function () {
     totalPayable: payableAmount.value,
     principal: loanAmount.value,
     loanTenure: loanTenure.value,
+    interestRate: interestRate.value,
   })
 }
 </script>

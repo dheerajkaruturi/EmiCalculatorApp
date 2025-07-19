@@ -116,4 +116,4 @@ const formatedPrincipalAmount = computed(() => {
 const formatedTotalAmount = computed(() => {
   return formatNumber(emiDataInput.totalAmount, false)
 })
-</script>
+  </script>
