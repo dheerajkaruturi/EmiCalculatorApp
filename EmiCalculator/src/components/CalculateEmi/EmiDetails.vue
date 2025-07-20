@@ -71,8 +71,8 @@
 
 <script setup>
 import { defineProps, computed } from 'vue'
-import CardLayout from '../components/CardLayout.vue'
-import { useNumberFormatter } from '../composables/numberformat.js'
+import CardLayout from '@/components/CardLayout.vue'
+import { useNumberFormatter } from '../../composables/numberformat'
 
 const { thousandSeparator: formatNumber } = useNumberFormatter()
 

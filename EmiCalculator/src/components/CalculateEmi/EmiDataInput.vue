@@ -1,7 +1,7 @@
 <template>
   <CardLayout>
     <template #card-content>
-      <div class="relative p-2">
+      <div class="relative">
         <!-- Background gradient overlay -->
         <div
           class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg opacity-30"
@@ -170,7 +170,7 @@
 
 <script setup>
 import { ref, defineEmits } from 'vue'
-import CardLayout from '../components/CardLayout.vue'
+import CardLayout from '@/components/CardLayout.vue'
 
 const emit = defineEmits(['emi-calculated'])
 

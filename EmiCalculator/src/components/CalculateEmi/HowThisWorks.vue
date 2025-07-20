@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 py-8 space-y-4 text-gray-800 w-full max-w-screen-lg mx-auto">
+  <div class="mt-8 mx-auto space-y-5 text-gray-800 w-full">
     <!-- Accordion: Factors Affecting Due Amount -->
     <details class="group border border-gray-200 rounded-md overflow-hidden">
       <summary

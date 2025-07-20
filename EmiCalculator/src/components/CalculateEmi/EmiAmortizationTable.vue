@@ -181,7 +181,7 @@ function calculateAmortization() {
 }
 
 const csvData = emiScheduleTableData.map((payment) => ({
-  'Month': payment.month,
+  Month: payment.month,
   'Principal Paid': payment.principalPaid,
   'Interest Charged': payment.interestPayment,
   'Total Payment': payment.totalPayment,
@@ -189,7 +189,6 @@ const csvData = emiScheduleTableData.map((payment) => ({
 }))
 
 function downloadExcel() {
-  debugger;
   exportToCsv(csvData, 'emi_amortization_schedule.csv')
 }
 </script>
