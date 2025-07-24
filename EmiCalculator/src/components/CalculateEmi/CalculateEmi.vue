@@ -25,6 +25,16 @@
     :loan-tenure="calculatedEmiFromChild.loanTenure"
   />
 
+  <div v-if="showDetailsComponent" class="mt-8 bg-white shawdow rounder-lg p-4 md:p-6">
+    <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">Total Payment Breakdown</h2>
+    <pie-chart
+      :data="[
+        ['Principle Amount', calculatedEmiFromChild.principleAmount],
+        ['Interest Amount', calculatedEmiFromChild.totalAmount - calculatedEmiFromChild.principleAmount],
+      ]"
+    ></pie-chart>
+  </div>
+
   <how-this-works v-if="showDetailsComponent" class="mt-8"></how-this-works>
 </template>
 

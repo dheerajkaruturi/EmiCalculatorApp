@@ -28,9 +28,11 @@
         <thead>
           <tr class="bg-black text-white">
             <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Month</th>
-            <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Principal Paid</th>
-            <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Interest Charged</th>
-            <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Total Payment</th>
+            <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Principal Paid (A)</th>
+            <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Interest Charged (B)</th>
+            <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">
+              Total Payment (A + B)
+            </th>
             <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Balance Amount</th>
           </tr>
         </thead>
@@ -80,11 +82,11 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { reactive, defineProps, watch, computed, ref } from 'vue'
 import { useNumberFormatter } from '@/composables/numberformat'
 import { useCsvFormatter } from '@/composables/useCsvExporter'
+
 
 const props = defineProps({
   showAmortizationTable: {
@@ -148,12 +150,12 @@ watch(
 
 function calculateAmortization() {
   if (!props.principleAmount || !props.interestRate || !props.loanTenure) {
-    emiScheduleTableData.splice(0, emiScheduleTableData.length) // Clear the array
+    emiScheduleTableData.splice(0, emiScheduleTableData.length)
     return
   }
 
   const P = props.principleAmount
-  const r = props.interestRate / 100 / 12 // Monthly interest rate
+  const r = props.interestRate / 100 / 12
   const n = props.loanTenure
 
   // Calculate EMI
@@ -161,7 +163,7 @@ function calculateAmortization() {
 
   // Generate amortization schedule
   let remainingBalance = P
-  emiScheduleTableData.splice(0, emiScheduleTableData.length) // Clear the array before populating
+  emiScheduleTableData.splice(0, emiScheduleTableData.length)
 
   for (let month = 1; month <= n; month++) {
     const interestPayment = remainingBalance * r
@@ -187,6 +189,46 @@ const csvData = emiScheduleTableData.map((payment) => ({
   'Total Payment': payment.totalPayment,
   'Balance Amount': payment.balanceAmount,
 }))
+/* Formatting for chart data
+data = [
+  {name: 'Workout', data: {'2025-01-01 00:00:00 -0800': 3, '2025-01-02 00:00:00 -0800': 4}},
+  {name: 'Call parents', data: {'2025-01-01 00:00:00 -0800': 5, '2025-01-02 00:00:00 -0800': 3}}
+];
+*/
+const graphDataForInterestPayment = computed(() => ({
+  name: 'Interest Payment',
+  data: emiScheduleTableData.reduce((acc, payment) => {
+    const monthKey = 'Month ' + payment.month
+    acc[monthKey] = payment.interestPayment
+    return acc
+  }, {})
+}))
+console.log(graphDataForInterestPayment.value)
+
+const graphDataForPrincipalPaid = computed(() => ({
+  name: 'Principal Payment',
+  data: emiScheduleTableData.reduce((acc, payment) => {
+    const monthKey = 'Month ' + payment.month
+    acc[monthKey] = payment.principalPaid
+    return acc
+  }, {})
+}))
+
+console.log(graphDataForPrincipalPaid.value)
+
+const graphDataForBalanceAmount = computed(() => ({
+  name: 'Balance Payment',
+  data: emiScheduleTableData.reduce((acc, payment) => {
+    const monthKey = 'Month ' + payment.month
+    acc[monthKey] = payment.balanceAmount
+    return acc
+  }, {})
+}))
+
+const graphObject = computed(() => [
+  graphDataForPrincipalPaid.value,
+  graphDataForInterestPayment.value,
+])
 
 function downloadExcel() {
   exportToCsv(csvData, 'emi_amortization_schedule.csv')
