@@ -30,7 +30,10 @@
     <pie-chart
       :data="[
         ['Principle Amount', calculatedEmiFromChild.principleAmount],
-        ['Interest Amount', calculatedEmiFromChild.totalAmount - calculatedEmiFromChild.principleAmount],
+        [
+          'Interest Amount',
+          calculatedEmiFromChild.totalAmount - calculatedEmiFromChild.principleAmount,
+        ],
       ]"
     ></pie-chart>
   </div>

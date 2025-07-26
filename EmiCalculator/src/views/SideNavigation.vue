@@ -36,7 +36,7 @@
       ]"
     >
       <!-- Header -->
-      <div class="p-6 border-b border-gray-200 bg-gray-900 flex-shrink-0">
+      <div class="p-6 border-b border-gray-200 bg-black flex-shrink-0">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-2">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,7 +51,7 @@
           </div>
           <button
             @click="closeSidebar"
-            class="p-1 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 lg:hidden"
+            class="p-1 rounded-md text-gray-300 hover:text-white hover:bg-black lg:hidden"
           >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -130,36 +130,42 @@ export default {
         name: 'EMI Calculator',
         description: 'Calculate your Loan EMI',
         icon: 'CreditCardIcon',
+        href: '/EmiCalculator'
       },
       {
         id: 'sip',
         name: 'SIP Calculator',
         description: 'Systematic Investment Plan',
         icon: 'TrendingUpIcon',
+        href: '/SipCalculator'
       },
       {
         id: 'swp',
         name: 'SWP Calculator',
         description: 'Systematic Withdrawal Plan',
         icon: 'ArrowDownIcon',
+        href: 'SwpCalculator'
       },
       {
         id: 'income-tax',
         name: 'Income Tax Calculator',
         description: 'Calculate tax liability',
         icon: 'ReceiptTaxIcon',
+        href: 'IncomeTax'
       },
       {
         id: 'epf',
         name: 'EPF Calculator',
         description: 'Employee Provident Fund',
         icon: 'ShieldCheckIcon',
+        href: 'EpfCalculator'
       },
       {
         id: 'ppf',
         name: 'PPF Calculator',
         description: 'Public Provident Fund',
         icon: 'LockClosedIcon',
+        href: 'PpfCalculator'
       },
     ])
 

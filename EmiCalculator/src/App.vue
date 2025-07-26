@@ -3,6 +3,7 @@
     <!-- Side Navigation - Hidden on md and below, visible on lg and above -->
     <div class="hidden lg:flex lg:flex-shrink-0">
       <side-navigation />
+      <router-view />
     </div>
 
     <!-- Main Content - Full width on md and below, remaining space on lg and above -->
@@ -13,6 +14,7 @@
     <!-- Mobile Side Navigation - Overlay on md and below -->
     <div class="lg:hidden">
       <side-navigation ref="mobileSidebar" />
+      <router-view />
     </div>
   </div>
 </template>
