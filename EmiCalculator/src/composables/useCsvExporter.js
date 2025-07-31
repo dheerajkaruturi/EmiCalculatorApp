@@ -1,5 +1,5 @@
-export function useCsvFormatter() {
-  const downloadCSVFile = (data, filename = 'emi_schedule.csv') => {
+export function useCsvExporter() {
+  const exportToCsv = (data, filename = 'export.csv') => {
     if (!Array.isArray(data) || data.length === 0) {
       alert('No data to export')
       return
@@ -35,7 +35,12 @@ export function useCsvFormatter() {
     document.body.removeChild(link)
     URL.revokeObjectURL(url) // Clean up the URL object
   }
+
+  // Maintain backward compatibility with old function name
+  const downloadCSVFile = exportToCsv
+
   return {
+    exportToCsv,
     downloadCSVFile,
   }
 }

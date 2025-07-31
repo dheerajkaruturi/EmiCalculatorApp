@@ -1,43 +1,40 @@
 <template>
   <CardLayout>
-    <template #card-content>
-      <div class="relative">
-        <!-- Background gradient overlay -->
-        <div
-          class="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg opacity-50"
-        ></div>
-
-        <!-- Content -->
-        <div class="relative z-10 text-center p-6 mt-4">
-          <!-- Header with icon -->
-          <div class="flex justify-center mb-6">
-            <div
-              class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center shadow-lg"
-            >
-              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="3"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
+    <template #title>
+      <div class="text-center">
+        <div class="flex justify-center mb-4">
+          <div
+            class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center shadow-lg"
+          >
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
           </div>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">EMI Calculation Results</h3>
+      </div>
+    </template>
 
-          <!-- Monthly EMI Display -->
-          <div class="mb-8">
-            <p class="text-lg font-semibold text-gray-600 mb-3 uppercase tracking-wide">
-              Your Monthly EMI is
-            </p>
+    <template #content>
+      <div class="text-center">
+        <!-- Monthly EMI Display -->
+        <div class="mb-8">
+          <p class="text-lg font-semibold text-gray-600 mb-3 uppercase tracking-wide">
+            Your Monthly EMI is
+          </p>
 
-            <!-- EMI Amount with fancy styling -->
-            <div class="relative">
-              <h2
-                class="text-4xl md:text-5xl font-bold bg-black bg-clip-text text-transparent mb-4"
-              >
-                {{ emi ? `₹${formatedEmi}` : '₹0' }}
-              </h2>
+          <!-- EMI Amount with fancy styling -->
+          <div class="relative">
+            <h2
+              class="text-4xl md:text-5xl font-bold bg-black bg-clip-text text-transparent mb-4"
+            >
+              {{ emi ? `₹${formatedEmi}` : '₹0' }}
+            </h2>
               <br />
             </div>
 
@@ -64,7 +61,6 @@
             </div>
           </div>
         </div>
-      </div>
     </template>
   </CardLayout>
 </template>

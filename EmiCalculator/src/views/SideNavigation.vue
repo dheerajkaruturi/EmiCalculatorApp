@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen">
-    <!-- Mobile Menu Button
+    <!-- Mobile Menu Button -->
     <button
       v-if="!isSidebarOpen"
       @click="toggleSidebar"
@@ -15,7 +15,7 @@
           d="M4 6h16M4 12h16M4 18h16"
         ></path>
       </svg>
-    </button> -->
+    </button>
 
     <!-- Overlay for mobile -->
     <div
@@ -69,37 +69,43 @@
       <!-- Navigation Items -->
       <nav class="flex-1 overflow-y-auto py-4">
         <div class="px-4 space-y-2">
-          <a
+          <router-link
             v-for="item in navigationItems"
             :key="item.id"
-            @click="selectCalculator(item)"
-            :class="[
-              'flex items-center px-4 py-3 text-gray-700 rounded-lg transition-colors duration-200 cursor-pointer group',
-              activeCalculator === item.id
-                ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600'
-                : 'hover:bg-gray-50 hover:text-gray-900',
-            ]"
+            :to="item.href"
+            custom
+            v-slot="{ isActive, navigate }"
           >
-            <component :is="item.icon" class="w-5 h-5 mr-3 flex-shrink-0" />
-            <div class="flex-1">
-              <div class="font-medium">{{ item.name }}</div>
-              <div class="text-sm text-gray-500 group-hover:text-gray-900">
-                {{ item.description }}
-              </div>
-            </div>
-            <svg
-              v-if="activeCalculator === item.id"
-              class="w-4 h-4 text-blue-600"
-              fill="currentColor"
-              viewBox="0 0 20 20"
+            <a
+              @click="handleNavigation(navigate)"
+              :class="[
+                'flex items-center px-4 py-3 text-gray-700 rounded-lg transition-colors duration-200 cursor-pointer group',
+                isActive
+                  ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600'
+                  : 'hover:bg-gray-50 hover:text-gray-900',
+              ]"
             >
-              <path
-                fill-rule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </a>
+              <component :is="item.icon" class="w-5 h-5 mr-3 flex-shrink-0" />
+              <div class="flex-1">
+                <div class="font-medium">{{ item.name }}</div>
+                <div class="text-sm text-gray-500 group-hover:text-gray-900">
+                  {{ item.description }}
+                </div>
+              </div>
+              <svg
+                v-if="isActive"
+                class="w-4 h-4 text-blue-600"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </a>
+          </router-link>
         </div>
       </nav>
 
@@ -117,12 +123,13 @@
 
 <script>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'SideNavigation',
   setup() {
+    const router = useRouter()
     const isSidebarOpen = ref(false)
-    const activeCalculator = ref('emi')
 
     const navigationItems = ref([
       {
@@ -130,42 +137,42 @@ export default {
         name: 'EMI Calculator',
         description: 'Calculate your Loan EMI',
         icon: 'CreditCardIcon',
-        href: '/EmiCalculator'
+        href: '/emi',
       },
       {
         id: 'sip',
         name: 'SIP Calculator',
         description: 'Systematic Investment Plan',
         icon: 'TrendingUpIcon',
-        href: '/SipCalculator'
+        href: '/sip',
       },
       {
         id: 'swp',
         name: 'SWP Calculator',
         description: 'Systematic Withdrawal Plan',
         icon: 'ArrowDownIcon',
-        href: 'SwpCalculator'
+        href: '/swp',
       },
       {
         id: 'income-tax',
         name: 'Income Tax Calculator',
         description: 'Calculate tax liability',
         icon: 'ReceiptTaxIcon',
-        href: 'IncomeTax'
+        href: '/income-tax',
       },
       {
         id: 'epf',
         name: 'EPF Calculator',
         description: 'Employee Provident Fund',
         icon: 'ShieldCheckIcon',
-        href: 'EpfCalculator'
+        href: '/epf',
       },
       {
         id: 'ppf',
         name: 'PPF Calculator',
         description: 'Public Provident Fund',
         icon: 'LockClosedIcon',
-        href: 'PpfCalculator'
+        href: '/ppf',
       },
     ])
 
@@ -178,13 +185,21 @@ export default {
     }
 
     const selectCalculator = (item) => {
-      activeCalculator.value = item.id
       // Close sidebar on mobile after selection
       if (window.innerWidth <= 768) {
         closeSidebar()
       }
-      // Emit event for parent component
+      // Navigate using router
       console.log('Selected calculator:', item.name)
+      router.push(item.href)
+    }
+
+    const handleNavigation = (navigate) => {
+      // Close sidebar on mobile after navigation
+      if (window.innerWidth <= 1024) {
+        closeSidebar()
+      }
+      navigate()
     }
 
     const currentYear = computed(() => {
@@ -193,11 +208,11 @@ export default {
 
     return {
       isSidebarOpen,
-      activeCalculator,
       navigationItems,
       toggleSidebar,
       closeSidebar,
       selectCalculator,
+      handleNavigation,
       currentYear,
     }
   },

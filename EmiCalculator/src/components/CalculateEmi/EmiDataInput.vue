@@ -1,32 +1,26 @@
 <template>
   <CardLayout>
-    <template #card-content>
-      <div class="relative">
-        <!-- Background gradient overlay -->
+    <template #title>
+      <div class="text-center">
         <div
-          class="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg opacity-30"
-        ></div>
+          class="inline-flex items-center justify-center w-12 h-12 bg-black rounded-xl shadow-lg mb-4"
+        >
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">EMI Calculator</h3>
+        <p class="text-gray-600 mt-2">Calculate your loan EMI and payment schedule</p>
+      </div>
+    </template>
 
-        <!-- Content -->
-        <div class="relative z-10">
-          <!-- Header with icon -->
-          <div class="text-center mb-1">
-            <div
-              class="inline-flex items-center justify-center w-12 h-12 bg-black rounded-xl shadow-lg mb-4"
-            >
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                ></path>
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-gray-800">EMI Calculator</h3>
-          </div>
-
-          <form @submit.prevent="calculateEmi" class="space-y-6">
+    <template #content>
+      <form @submit.prevent="calculateEmi" class="space-y-6">
             <!-- Loan Amount -->
             <div class="group">
               <label
@@ -162,8 +156,6 @@
               </button>
             </div>
           </form>
-        </div>
-      </div>
     </template>
   </CardLayout>
 </template>

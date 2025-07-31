@@ -85,8 +85,7 @@
 <script setup>
 import { reactive, defineProps, watch, computed, ref } from 'vue'
 import { useNumberFormatter } from '@/composables/numberformat'
-import { useCsvFormatter } from '@/composables/useCsvExporter'
-
+import { useCsvExporter } from '@/composables/useCsvExporter'
 
 const props = defineProps({
   showAmortizationTable: {
@@ -116,7 +115,7 @@ const currentPage = ref(1)
 const itemsPerPage = 10
 
 const { thousandSeparator: formatNumber } = useNumberFormatter()
-const { downloadCSVFile: exportToCsv } = useCsvFormatter()
+const { exportToCsv } = useCsvExporter()
 
 const totalPages = computed(() => {
   return Math.ceil(emiScheduleTableData.length / itemsPerPage)
@@ -201,7 +200,7 @@ const graphDataForInterestPayment = computed(() => ({
     const monthKey = 'Month ' + payment.month
     acc[monthKey] = payment.interestPayment
     return acc
-  }, {})
+  }, {}),
 }))
 console.log(graphDataForInterestPayment.value)
 
@@ -211,7 +210,7 @@ const graphDataForPrincipalPaid = computed(() => ({
     const monthKey = 'Month ' + payment.month
     acc[monthKey] = payment.principalPaid
     return acc
-  }, {})
+  }, {}),
 }))
 
 console.log(graphDataForPrincipalPaid.value)
@@ -222,7 +221,7 @@ const graphDataForBalanceAmount = computed(() => ({
     const monthKey = 'Month ' + payment.month
     acc[monthKey] = payment.balanceAmount
     return acc
-  }, {})
+  }, {}),
 }))
 
 const graphObject = computed(() => [

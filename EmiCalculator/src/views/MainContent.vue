@@ -45,13 +45,7 @@
     <!-- Main Content Area -->
     <div class="p-4 md:p-6 lg:p-6">
       <div class="max-w-full mx-auto">
-        <h1 class="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-4 md:mb-6">
-          EMI Calculator
-        </h1>
-        <p class="text-gray-700 mb-6">
-          Calculate your Equated Monthly Installment (EMI) for various loans with ease.
-        </p>
-        <calculate-emi />
+        <router-view />
       </div>
     </div>
   </div>
@@ -59,12 +53,12 @@
 
 <script setup>
 import { defineEmits } from 'vue'
-import CalculateEmi from '@/components/CalculateEmi/CalculateEmi.vue'
 
 const emit = defineEmits(['toggle-sidebar'])
 
 const toggleMobileMenu = () => {
-  // Emit event to parent or use a global state management
+  // Emit event to parent to toggle the sidebar
+  emit('toggle-sidebar')
   emit('toggle-sidebar')
 }
 </script>
